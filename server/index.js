@@ -3,6 +3,7 @@ const massive = require('massive');
 
 const users = require('./controllers/users.js');
 const posts = require('./controllers/posts.js');
+const comments = require('./controllers/comments.js');
 
 massive({
   host: 'localhost',
@@ -18,14 +19,20 @@ massive({
 	//MIDDLEWARE
   app.use(express.json());
 
-  //ROUTING 
+  //ROUTING USERS
   app.post('/api/users', users.create);
   app.get('/api/users', users.list);
   app.get('/api/users/:id', users.getById);
   app.get('/api/users/:id/profile', users.getProfile);
-	//POST
-	app.post('/api/posts', posts.create);
 
+  //ROUTING POSTS
+	app.post('/api/posts', posts.create); 
+  app.get('/api/posts/:id', posts.getById); 
+  app.put('/api/posts/:id', posts.update); 
+
+  //ROUTING COMMENTS
+  app.post('/api/comments', comments.create); 
+  app.put('/api/comments/:id', comments.update); 
 
 
   const PORT = 3001;
