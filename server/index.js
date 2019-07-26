@@ -28,6 +28,8 @@ massive({
   //ROUTING POSTS
 	app.post('/api/posts', posts.create); 
   app.get('/api/posts/:id', posts.getById); 
+  app.get('/api/posts/:id/comments', posts.getByIdWithComments); 
+  app.get('/api/posts/user/:userId/', posts.getAllByUser); 
   app.put('/api/posts/:id', posts.update); 
 
   //ROUTING COMMENTS

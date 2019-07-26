@@ -27,6 +27,39 @@ function getById(req, res) {
     });
 }
 
+function getByIdWithComments(req, res) {
+  const db = req.app.get('db');
+
+  db.posts
+    .findOne(req.params.id)
+    .then(post => {
+      db.comments
+        .find({
+          postId: req.params.id
+        })
+        .then(comment => {
+          post.comments = comment
+          res.status(200).json(post)
+        })
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).end();
+    });
+}
+
+function getAllByUser(req, res) {
+  const db = req.app.get('db');
+
+  db.posts
+    .find({userId: req.params.userId})
+    .then(post => res.status(200).json(post))
+    .catch(err => {
+      console.error(err);
+      res.status(500).end();
+    });
+}
+
 function update(req, res) {
   const db = req.app.get('db');
 
@@ -47,5 +80,5 @@ function update(req, res) {
 }
 
 module.exports = {
-  create, getById, update
+  create, getById, getByIdWithComments, getAllByUser, update
 };
